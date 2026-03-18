@@ -2,6 +2,11 @@ const express = require("express");
 const app = express();
 
 app.use(express.json())
+app.use(express.static('public'));
+
+app.get("/", (req,res) =>{
+    res.redirect("/index.html")
+})
 
 function add(n1, n2) {
     return n1 + n2;
