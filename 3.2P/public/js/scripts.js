@@ -1,5 +1,11 @@
 const cardList = [
     {
+        title: "German Shepherd",
+        image: "images/german.jpg",
+        link: "About German Shepherd",
+        desciption: "Obedient and smart"
+    },
+    {
         title: "Labrador",
         image: "images/Labrador.jpg",
         link: "About Labrador",
