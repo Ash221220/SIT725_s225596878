@@ -1,46 +1,45 @@
 const books = [
     {
-        id: "1",
-        title: "Atomic Habits",
-        author: "James Clear",
-        year: 2018,
-        genre: "Self-Help",
-        summary: "Atomic Habits explains how small daily changes can lead to remarkable results. The book focuses on building good habits, breaking bad ones, and improving personal productivity."
+        id: "b1",
+        title: "The Three-Body Problem",
+        author: "Liu Cixin",
+        year: 2008,
+        genre: "Science Fiction",
+        summary: "The Three-Body Problem is the first novel in the Remembrance of Earth's Past trilogy. The series portrays a fictional past, present, and future wherein Earth encounters an alien civilization from a nearby system of three Sun-like stars orbiting one another."
     },
     {
-        id: "2",
-        title: "The Alchemist",
-        author: "Paulo Coelho",
-        year: 1988,
-        genre: "Fiction",
-        summary: "A young shepherd named Santiago travels in search of treasure and discovers the importance of following dreams and listening to his heart."
+        id: "b2",
+        title: "Jane Eyre",
+        author: "Charlotte Brontë",
+        year: 1847,
+        genre: "Classic",
+        summary: "An orphaned governess confronts class, morality, and love at Thornfield Hall, uncovering Mr. Rochester's secret and forging her own independence."
     },
     {
-        id: "3",
-        title: "Sapiens: A Brief History of Humankind",
-        author: "Yuval Noah Harari",
-        year: 2011,
-        genre: "History",
-        summary: "This book explores the history of humankind, from early humans to modern society, discussing culture, technology, and human evolution."
+        id: "b3",
+        title: "Pride and Prejudice",
+        author: "Jane Austen",
+        year: 1813,
+        genre: "Classic",
+        summary: "Elizabeth Bennet and Mr. Darcy navigate pride, misjudgement, and social expectations in a sharp study of manners and marriage."
     },
     {
-        id: "4",
-        title: "1984",
-        author: "George Orwell",
-        year: 1949,
-        genre: "Dystopian",
-        summary: "A chilling story about a totalitarian society where the government controls every aspect of life and individuals struggle for freedom."
+        id: "b4",
+        title: "The English Patient",
+        author: "Michael Ondaatje",
+        year: 1992,
+        genre: "Historical Fiction",
+        summary: "In a ruined Italian villa at the end of WWII, four strangers with intersecting pasts confront memory, identity, and loss."
     },
     {
-        id: "5",
-        title: "The Hobbit",
-        author: "J.R.R. Tolkien",
-        year: 1937,
+        id: "b5",
+        title: "Small Gods",
+        author: "Terry Pratchett",
+        year: 1992,
         genre: "Fantasy",
-        summary: "Bilbo Baggins goes on an unexpected adventure with a group of dwarves to reclaim their homeland from a dragon."
+        summary: "In Omnia, the god Om returns as a tortoise, and novice Brutha must confront dogma, empire, and the nature of belief."
     }
 ];
-
 const getAllBooks = () => {
     return books;
 };
