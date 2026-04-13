@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Books Catalog</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f7fb;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #4a6cf7;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .actions {
+      text-align: center;
+      margin-top: 40px;
+      margin-bottom: 25px;
+    }
+
+    .get-btn {
+      background: #4a6cf7;
+      color: white;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    .get-btn:hover {
+      background: #3557d6;
+    }
+
+    .message {
+      text-align: center;
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    .content-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 0.9fr;
+      gap: 25px;
+      align-items: start;
+    }
+
+    .list-panel,
+    .details-panel {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .panel-title {
+      margin-top: 0;
+      margin-bottom: 18px;
+      color: #333;
+      font-size: 22px;
+    }
+
+    .books-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .book-card {
+      background: #f9fbff;
+      border: 1px solid #e1e8f5;
+      border-radius: 10px;
+      padding: 16px;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .book-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      border-color: #4a6cf7;
+    }
+
+    .book-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .book-author {
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .price {
+      font-size: 16px;
+      font-weight: bold;
+      color: #2e7d32;
+      margin-top: 8px;
+    }
+
+    .detail-item {
+      margin-bottom: 12px;
+      color: #444;
+      line-height: 1.6;
+    }
+
+    .label {
+      font-weight: bold;
+      color: #222;
+    }
+
+    .detail-title {
+      margin-top: 0;
+      margin-bottom: 16px;
+      color: #333;
+    }
+
+    .genre-badge {
+      display: inline-block;
+      background: #eef2ff;
+      color: #4a6cf7;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+      color: #888;
+    }
+
+    @media (max-width: 900px) {
+      .content-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Book Catalogue developed by s225596878</h1>
+  </header>
+
+  <div class="container">
+    <div class="actions">
+      <button id="getBooksBtn" class="get-btn">Get Books</button>
+    </div>
+    <div id="message" class="message"></div>
+    <div id="content" class="content-layout" style="display: none;">
+      <div class="list-panel">
+        <h2 class="panel-title">Book List</h2>
+        <div id="books" class="books-list"></div>
+      </div>
+
+      <div class="details-panel" id="bookDetails">
+        <h2 class="panel-title">Book Details</h2>
+      </div>
+    </div>
+  </div>
+
+  <footer>SIT725 MVC Books App</footer>
+
+  <script>
+    const getBooksBtn = document.getElementById('getBooksBtn');
+    const booksContainer = document.getElementById('books');
+    const message = document.getElementById('message');
+    const bookDetails = document.getElementById('bookDetails');
+    const content = document.getElementById('content');
+
+    function formatPrice(priceObj) {
+      if (priceObj && priceObj.$numberDecimal) {
+        return parseFloat(priceObj.$numberDecimal).toFixed(2);
+      }
+      return Number(priceObj).toFixed(2);
+    }
+
+    function showBookDetails(book) {
+      bookDetails.innerHTML = `
+        <h2 class="panel-title">Book Details</h2>
+        <h3 class="detail-title">${book.title}</h3>
+        <div class="genre-badge">${book.genre}</div>
+        <div class="detail-item"><span class="label">ID:</span> ${book.id}</div>
+        <div class="detail-item"><span class="label">Author:</span> ${book.author}</div>
+        <div class="detail-item"><span class="label">Year:</span> ${book.year}</div>
+        <div class="detail-item"><span class="label">Genre:</span> ${book.genre}</div>
+        <div class="detail-item"><span class="label">Summary:</span> ${book.summary}</div>
+        <div class="detail-item price"><span class="label">Price:</span> $${formatPrice(book.price)} AUD</div>
+      `;
+    }
+
+    function attachBookClickEvents() {
+      const cards = document.querySelectorAll('.book-card');
+
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          const bookId = card.dataset.id;
+          fetch(`/api/books/${bookId}`)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Book not found');
+              }
+              return response.json();
+            })
+            .then(book => {
+              showBookDetails(book);
+            })
+            .catch(error => {
+              message.textContent = 'Failed to load book details.';
+              console.error(error);
+            });
+        });
+      });
+    }
+
+    getBooksBtn.addEventListener('click', () => {
+      booksContainer.innerHTML = '';
+      bookDetails.innerHTML = '<h2 class="panel-title">Book Details</h2>';
+      content.style.display = 'grid';
+      fetch('/api/books')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch books');
+          }
+          return response.json();
+        })
+        .then(data => {
+          booksContainer.innerHTML = '';
+
+          data.forEach(book => {
+            const div = document.createElement('div');
+            div.className = 'book-card';
+            div.dataset.id = book.id;
+            div.innerHTML = `
+              <div class="book-title">${book.title}</div>
+              <div class="book-author">By ${book.author}</div>
+              <div class="price">Price: $${formatPrice(book.price)} AUD</div>
+            `;
+            booksContainer.appendChild(div);
+          });
+          attachBookClickEvents();
+        })
+        .catch(error => {
+          message.textContent = 'Failed to load books.';
+          console.error(error);
+        });
+    });
+  </script>
+</body>
+</html>
